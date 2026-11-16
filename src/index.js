@@ -9,8 +9,27 @@ env.config({
     path: "./.env",
 });
 
+const PORT = process.env.port || 8000
 
-connectDB()
+const startServer = async () => {
+    try {
+        await connectDB();
+
+        app.on("error", (error) => {
+            console.log("Server Error:", error);
+        });
+
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+
+    } catch (error) {
+        console.log("Error while connecting to MongoDB:", error);
+        process.exit(1);
+    }
+};
+
+startServer();
 
 // (async () => {
 //   try {
